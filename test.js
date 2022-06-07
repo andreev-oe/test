@@ -156,23 +156,27 @@ const modalInBody = document.querySelector('.tasks-list');
 modalInBody.append(modalWindow);
 
 const deleteButton = document.querySelector('.tasks-list');
+let clickedButton
 
 deleteButton.addEventListener('click', (event) => {
   const isDeleteButton = event.target.closest('.task-item__delete-button');
   if (isDeleteButton) {
       modalWindow.classList.remove('modal-overlay_hidden');
-      
-      buttonCancel.addEventListener('click', (event) => {
+      clickedButton = isDeleteButton
+  };
+});
+
+buttonCancel.addEventListener('click', (event) => {
           const {target} = event;
           modalWindow.classList.add('modal-overlay_hidden');
       });
-      
-      buttonConfirm.addEventListener('click', (event) => {
+
+buttonConfirm.addEventListener('click', (event) => {
           const {target} = event;
           console.log(target);
           const task = document.querySelectorAll('.task-item');
           task.forEach((element) =>{
-              if (element.dataset.taskId === isDeleteButton.dataset.deleteTaskId) {
+              if (element.dataset.taskId === clickedButton.dataset.deleteTaskId) {
                   element.remove();
                   modalWindow.classList.add('modal-overlay_hidden');
                   const index = tasks.findIndex((task)=>{
@@ -182,6 +186,4 @@ deleteButton.addEventListener('click', (event) => {
                   console.log(tasks);
               };
           });
-      });
-  };
-});
+      });      
